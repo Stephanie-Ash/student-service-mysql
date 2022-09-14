@@ -1,5 +1,7 @@
 package com.qa.studentservicemysql.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class StudentController {
 	ResponseEntity<?> responseEntity;
 	
 	@PostMapping("/add")
-	public ResponseEntity<?> saveStudent(@RequestBody Student student) throws StudentAlreadyExistsException {
+	public ResponseEntity<?> saveStudent(@Valid @RequestBody Student student) throws StudentAlreadyExistsException {
 		Student createdStudent;
 		try {
 			createdStudent = this.studService.saveStudent(student);
