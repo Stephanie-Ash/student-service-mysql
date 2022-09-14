@@ -44,7 +44,7 @@ public class StudentController {
 	}
 	
 	@GetMapping("/students")
-	public ResponseEntity<?> getAllEmployees() {
+	public ResponseEntity<?> getAllStudents() {
 		return new ResponseEntity<>(this.studService.getAllStudents(), HttpStatus.OK);
 	}
 	
@@ -81,6 +81,16 @@ public class StudentController {
 			throw e;
 		}
 		
+		return responseEntity;
+	}
+	
+	@GetMapping("/students/dto")
+	public ResponseEntity<?> getAllStudentsDto() {
+		try {
+			responseEntity = new ResponseEntity<>(studService.getAllStudentDtos(), HttpStatus.OK);
+		} catch(Exception e) {
+			responseEntity = new ResponseEntity<>("Some internal error occurred, please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return responseEntity;
 	}
 

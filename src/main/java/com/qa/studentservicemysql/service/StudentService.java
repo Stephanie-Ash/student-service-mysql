@@ -2,10 +2,13 @@ package com.qa.studentservicemysql.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qa.studentservicemysql.dto.StudentDto;
 import com.qa.studentservicemysql.entity.Student;
 import com.qa.studentservicemysql.exception.StudentAlreadyExistsException;
 import com.qa.studentservicemysql.exception.StudentNotFoundException;
@@ -17,6 +20,9 @@ public class StudentService implements IStudentService {
 	
 	@Autowired
 	StudentRepository studRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	public Student saveStudent(Student student) throws StudentAlreadyExistsException {
@@ -70,6 +76,16 @@ public class StudentService implements IStudentService {
 		}
 		
 		return status;
+	}
+	
+	private StudentDto mapToDto(Student student) {
+		return this.mapper.map(student, StudentDto.class);
+	}
+
+	@Override
+	public List<StudentDto> getAllStudentDtos() {
+		
+		return this.studRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
 	}
 
 }
